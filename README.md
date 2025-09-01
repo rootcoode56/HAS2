@@ -2,6 +2,8 @@
 
 A comprehensive Flutter application for managing hospital appointments, patient records, and healthcare services.
 
+Get Apps in Apps folder
+
 ## Features
 
 ### 🔐 Authentication
@@ -162,7 +164,7 @@ dart format .
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the NO Lisence.
 
 ## Support
 
