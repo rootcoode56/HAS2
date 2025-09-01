@@ -1,0 +1,47 @@
+# Flutter Performance Optimization Configuration
+# This file contains optimizations applied to improve app performance
+
+# Build optimizations for release mode
+release_optimizations:
+  # Enable tree shaking
+  tree_shaking: true
+  
+  # Minify code
+  minify: true
+  
+  # Optimize assets
+  compress_assets: true
+  
+  # Enable obfuscation for smaller APK
+  obfuscation: true
+
+# Asset optimization settings
+asset_optimizations:
+  # Image compression settings
+  image_quality: 70
+  max_image_width: 600
+  max_image_height: 400
+  
+  # Enable caching
+  enable_image_caching: true
+  cache_size_limit: 100MB
+
+# Performance tips applied:
+applied_optimizations:
+  - "Removed expensive BackdropFilter blur effects"
+  - "Added image caching with cacheWidth and cacheHeight"
+  - "Implemented lazy loading for navigation routes"
+  - "Added Material 3 for better performance"
+  - "Optimized page transitions"
+  - "Added image preloading for critical assets"
+  - "Reduced blur sigma values"
+  - "Used const constructors where possible"
+
+# Recommended next steps:
+recommendations:
+  - "Compress large images (>1MB) using the optimize_images.py script"
+  - "Test app performance on different devices"
+  - "Monitor memory usage during navigation"
+  - "Consider using cached_network_image for remote images"
+  - "Implement widget recycling for lists"
+  - "Add performance profiling in debug mode"
