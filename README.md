@@ -126,6 +126,7 @@ flutter build apk --release
 ```bash
 flutter build ios --release
 ```
+##IOS is not available at this moment
 
 ## Testing
 
