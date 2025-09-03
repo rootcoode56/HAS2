@@ -21,8 +21,8 @@ class _DashboardPageState extends State<DashboardPage>
     with SingleTickerProviderStateMixin {
   final List<String> announcements = [
     'Welcome to HAS!',
-    'Free health checkup on Friday',
     'New specialist doctors added!',
+    'of Rajshahi,Dhaka and Kushtia',
     '24/7 Emergency Services Available',
   ];
 
@@ -110,7 +110,8 @@ class _DashboardPageState extends State<DashboardPage>
     if (shouldLogout ?? false) {
       await FirebaseAuth.instance.signOut();
       if (mounted) {
-        Navigator.pushReplacement(
+        await Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
             builder: (context) => const CroppedBackgroundScreen(),

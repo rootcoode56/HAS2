@@ -1,10 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.has">
 
-    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- Internet + Phone Call -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- Location Permissions (Needed for Maps & Geolocator) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:name="${applicationName}"
@@ -36,8 +39,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="${googleMapsApiKey}"/>
+
+        <!-- ✅ Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key"/>
     </application>
 
     <!-- Required to query activities -->

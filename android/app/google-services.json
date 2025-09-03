@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "125539891828",
+    "project_id": "hospital-access-system-d902d",
+    "storage_bucket": "hospital-access-system-d902d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125539891828:android:4ff3dc8cdca11e98feaf21",
+        "android_client_info": {
+          "package_name": "com.example.has"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125539891828-fqjnfgst9a1f5hod20pdf7pv17t1e0n5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPjfgQKll2eRd1aHOzdOa_rB6mM7klVKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125539891828-fqjnfgst9a1f5hod20pdf7pv17t1e0n5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

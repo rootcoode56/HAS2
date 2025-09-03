@@ -8,7 +8,6 @@ import 'askmepage.dart';
 import 'booking.dart';
 import 'dashboard.dart';
 import 'doctorsearch.dart';
-import 'firebase_options.dart';
 import 'hasnearme.dart';
 import 'presciptionpage.dart';
 import 'searchsymptompspage.dart';
@@ -17,9 +16,7 @@ import 'updateprofilepage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
