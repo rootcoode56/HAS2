@@ -11,7 +11,7 @@
 
     <application
         android:name="${applicationName}"
-        android:label="has"
+        android:label="HAS"
         android:icon="@mipmap/launcher_icon">
 
         <activity
