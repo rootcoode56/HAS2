@@ -67,11 +67,11 @@ class ImagePreloader {
 
   static Future<void> preloadCriticalImages(BuildContext context) async {
     final criticalImages = [
-      'assets/HAS.png',
-      'assets/avater.png',
-      'assets/background.jpg',
-      'assets/Bot.jpg',
-      'assets/Mag.jpg',
+      'assets/images/HAS.png',
+      'assets/images/avater.png',
+      'assets/images/background.jpg',
+      'assets/images/Bot.jpg',
+      'assets/images/Mag.jpg',
     ];
 
     for (final imagePath in criticalImages) {

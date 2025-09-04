@@ -42,12 +42,13 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
   Future<void> _loadDoctorsFromJson() async {
     try {
       final jsonString = await rootBundle.loadString(
-        'assets/DocsInfo.json',
+        'assets/data/DocsInfoNew.json',
       );
-      final List<dynamic> jsonData = json.decode(jsonString);
+      final Map<String, dynamic> jsonData = json.decode(jsonString);
 
       final doctors = <String>[];
-      for (final item in jsonData) {
+      for (final entry in jsonData.entries) {
+        final item = entry.value;
         if (item is Map<String, dynamic>) {
           doctors.add(item['Name']?.toString() ?? 'Unknown');
         }

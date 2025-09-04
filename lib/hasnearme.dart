@@ -209,19 +209,15 @@ class _HasNearMeState extends State<HasNearMe> with WidgetsBindingObserver {
         body: Stack(
           children: [
             GoogleMap(
-              onMapCreated: (controller) => _controller.complete(controller),
+              onMapCreated: _controller.complete,
               initialCameraPosition:
                   CameraPosition(target: _currentPosition, zoom: 14),
-              myLocationEnabled: false,
               myLocationButtonEnabled: false,
               markers: _markers,
               onTap: _handleMapTap,
-              mapType: MapType.normal,
               compassEnabled: false,
               rotateGesturesEnabled: false,
-              scrollGesturesEnabled: true,
               tiltGesturesEnabled: false,
-              zoomGesturesEnabled: true,
               zoomControlsEnabled: false,
             ),
             // Search Bar

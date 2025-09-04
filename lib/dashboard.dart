@@ -37,7 +37,6 @@ class _DashboardPageState extends State<DashboardPage>
     super.initState();
     _startAnnouncementRotation();
     _loadLocalUserProfile(); // load name & photo from local JSON
-    // Preload critical images for better performance
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ImagePreloader.preloadCriticalImages(context);
     });
@@ -111,7 +110,6 @@ class _DashboardPageState extends State<DashboardPage>
       await FirebaseAuth.instance.signOut();
       if (mounted) {
         await Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
             builder: (context) => const CroppedBackgroundScreen(),
@@ -122,16 +120,12 @@ class _DashboardPageState extends State<DashboardPage>
   }
 
   void _navigateTo(String routeName) {
-    // Optimize navigation with better performance
     Navigator.pushNamed(
       context,
       '/$routeName',
     ).then((_) {
-      // Optional: Clear any heavy resources when returning
       if (mounted) {
-        setState(() {
-          // Refresh state if needed
-        });
+        setState(() {});
       }
     });
   }
@@ -221,7 +215,8 @@ class _DashboardPageState extends State<DashboardPage>
                         Align(
                           alignment: Alignment.topRight,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                            crossAxisAlignment:
+                                CrossAxisAlignment.center, // ✅ fix
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               GestureDetector(
@@ -240,27 +235,24 @@ class _DashboardPageState extends State<DashboardPage>
                                           as ImageProvider,
                                 ),
                               ),
-                              const SizedBox(height: 8),
-                              Transform.translate(
-                                offset: const Offset(-6, 0),
-                                child: GestureDetector(
-                                  onTap: () =>
-                                      Navigator.pushNamed(context, '/account'),
-                                  child: Text(
-                                    _localUserName,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'TanjimFonts',
-                                      fontSize: 16,
-                                      shadows: [
-                                        Shadow(
-                                          offset: Offset(0, 1),
-                                          blurRadius: 3,
-                                          color: Colors.black54,
-                                        ),
-                                      ],
-                                    ),
+                              const SizedBox(height: 6),
+                              GestureDetector(
+                                onTap: () =>
+                                    Navigator.pushNamed(context, '/account'),
+                                child: Text(
+                                  _localUserName,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'TanjimFonts',
+                                    fontSize: 16,
+                                    shadows: [
+                                      Shadow(
+                                        offset: Offset(0, 1),
+                                        blurRadius: 3,
+                                        color: Colors.black54,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -284,10 +276,9 @@ class _DashboardPageState extends State<DashboardPage>
                                 ),
                                 child: Image.asset(
                                   'assets/images/HAS.png',
-                                  width: 100,
+                                  width: 95,
                                   height: 60,
-                                  fit: BoxFit.contain,
-                                  // Add caching for better performance
+                                  fit: BoxFit.fill,
                                   cacheWidth: 200,
                                   cacheHeight: 120,
                                 ),
@@ -301,7 +292,7 @@ class _DashboardPageState extends State<DashboardPage>
 
                   const SizedBox(height: 20),
 
-                  // Optimized container with buttons (removed expensive blur)
+                  // Optimized container with buttons
                   Container(
                     height: 550,
                     margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -317,7 +308,6 @@ class _DashboardPageState extends State<DashboardPage>
                       crossAxisCount: 2,
                       mainAxisSpacing: 20,
                       crossAxisSpacing: 20,
-                      // Add performance optimizations
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       children: [

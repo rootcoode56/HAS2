@@ -1,8 +1,8 @@
 import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'askmepage.dart';
@@ -17,8 +17,12 @@ import 'updateprofilepage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
+  await dotenv.load();
   await Firebase.initializeApp();
+
+  // ✅ Make app fullscreen
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
   runApp(const MyApp());
 }
 
@@ -29,9 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         theme: ThemeData(
           fontFamily: 'TanjimFonts',
-          // Enable Material 3 for better performance
           useMaterial3: true,
-          // Disable expensive animations globally
           pageTransitionsTheme: const PageTransitionsTheme(
             builders: {
               TargetPlatform.android: CupertinoPageTransitionsBuilder(),
@@ -89,7 +91,7 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
       );
 
       if (mounted) {
-        Navigator.of(context).pushReplacement(
+        await Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const DashboardPage()),
         );
       }
@@ -103,9 +105,12 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
       }
 
       ScaffoldMessenger.of(
+        // ignore: use_build_context_synchronously
         context,
       ).showSnackBar(SnackBar(content: Text(errorMessage)));
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('An error occurred. Please try again.')),
       );
@@ -119,8 +124,7 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
     super.dispose();
   }
 
-  // Google Sign-In method - Placeholder for proper Firebase configuration
-  // TODO: Configure Google Sign-In properly with Firebase Console
+  // Google Sign-In method - Placeholder
   Future<UserCredential?> signInWithGoogle() async {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -132,69 +136,15 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
       );
     }
     return null;
-
-    // Commented out for now - uncomment after Firebase is properly configured
-    /*
-    try {
-      final GoogleSignIn googleSignIn = GoogleSignIn(
-        scopes: [
-          'email',
-          'https://www.googleapis.com/auth/contacts.readonly',
-        ],
-      );
-      
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      
-      if (googleUser == null) {
-        return null; // User canceled
-      }
-      
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      
-      final UserCredential userCredential = 
-          await FirebaseAuth.instance.signInWithCredential(credential);
-          
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const DashboardPage()),
-        );
-      }
-      
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      debugPrint('Firebase Auth Error: ${e.code} - ${e.message}');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Authentication failed: ${e.message}'),
-          ),
-        );
-      }
-      return null;
-    } catch (e) {
-      debugPrint('Google Sign-In Error: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Google Sign-In failed. Please try again.'),
-          ),
-        );
-      }
-      return null;
-    }
-    */
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        // ✅ remove SafeArea, let background go edge-to-edge
         body: Stack(
+          fit: StackFit.expand,
           children: [
-            // Background image
+            // Fullscreen background image
             Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -209,7 +159,7 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // HAS Logo with rounded rectangle background, shadow, border
+                  // HAS Logo
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Container(
@@ -245,7 +195,7 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
                     ),
                   ),
 
-                  // Glassy blackish box with reduced top padding
+                  // Glassy login box
                   ClipRRect(
                     borderRadius: BorderRadius.circular(35),
                     child: BackdropFilter(
@@ -314,7 +264,7 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
                               text: 'Login',
                               onPressed: () {
                                 Feedback.forTap(context);
-                                _login(); // call your login function here
+                                _login();
                               },
                               backgroundColor:
                                   Colors.white.withValues(alpha: 0.2),
@@ -330,13 +280,12 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
                               text: 'Continue with Google',
                               icon: 'assets/images/google_logo.jpg',
                               onPressed: () async {
-                                Feedback.forTap(context);
+                                await Feedback.forTap(context);
                                 final user = await signInWithGoogle();
                                 if (user != null) {
                                   print(
                                     'Google Sign-In Success! Welcome: ${user.user?.displayName}',
                                   );
-                                  // TODO: Navigate to dashboard screen
                                 } else {
                                   print('Google Sign-In failed or canceled.');
                                 }
@@ -404,8 +353,6 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
               context,
               MaterialPageRoute(builder: (_) => const ForgetPasswordScreen()),
             );
-          } else {
-            print('$text tapped');
           }
         },
         child: Text(
@@ -466,6 +413,8 @@ class _CroppedBackgroundScreenState extends State<CroppedBackgroundScreen> {
       );
 }
 
+// =============== CreateAccountScreen =================
+
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
 
@@ -509,15 +458,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         _isLoading = true;
       });
 
-      // ✅ Create user
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      // ✅ Send verification email
       await userCredential.user?.sendEmailVerification();
 
       if (mounted) {
-        // Optionally show a success message before navigating
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Verification email sent. Please check your inbox.'),
@@ -525,7 +471,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           ),
         );
 
-        Navigator.of(context).pop(); // Back to login
+        Navigator.of(context).pop();
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -597,6 +543,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         ),
       );
 }
+
+// =============== ForgetPasswordScreen =================
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
